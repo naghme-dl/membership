@@ -1,0 +1,161 @@
+/* Frame 120 */
+@import url("https://necolas.github.io/normalize.css/8.0.1/normalize.css");
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #234894;
+  --color-secondary-dark: #219f95;
+  --color-secondary-light: #afcedd;
+  --color-headings: #1e1e1e;
+  --color-white: #fff;
+  --color-body: #fdfdfd;
+  --color-grey: #696969;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: var(--color-body);
+  font-size: 1.6rem;
+}
+
+.btn {
+  color: var(--color-primary);
+  background-color: var(--color-secondary);
+}
+
+.container {
+  max-width: 1336px;
+}
+
+.requests {
+  width: 100%;
+  /* background-color: #219f95; */
+  margin: 5rem auto;
+  padding: 3rem 3rem;
+}
+
+.requests .requests__title {
+  display: block;
+  font-weight: bold;
+  font-size: 2.2rem;
+  color: var(--color-headings);
+}
+
+.request__informations {
+  width: 100%;
+  margin-top: 10rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .request__informations {
+    column-gap: 3rem;
+    row-gap: 1.5rem;
+    /* grid-template-columns: repeat(2, minmax(300px, 1fr)); */
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .requests {
+    padding: 3rem 5rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .request__informations {
+    column-gap: 2rem;
+    row-gap: 4rem;
+    /* grid-template-columns: repeat(3, minmax(350px, 1fr)); */
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .requests {
+    padding: 3rem 5rem;
+  }
+}
+
+/* //////////////////////////////////////// request__info */
+
+.request__info {
+  /* background-color: #ced9df; */
+  padding: 1.7rem;
+  /* display: flex;
+  flex-direction: column; */
+}
+.info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info__attach .attach--title {
+  display: flex;
+  align-items: center;
+  color: var(--color-primary);
+}
+.info__attach .attach--title span {
+  font-weight: 900;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #afcedd;
+  margin-left: 1.5rem;
+}
+
+.info__attach .attach--date {
+  color: var(--color-grey);
+  font-weight: 500;
+}
+/* //////////////////////////////////// */
+.info--content {
+  align-items: flex-end;
+}
+.apply__datail-title {
+  font-size: 1.8rem;
+  color: var(--color-headings);
+}
+.apply__datail-id {
+  color: var(--color-grey);
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.apply__detail-profile {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.apply__detail-profile .img-wraper img {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.apply__detail-profile span {
+  font-weight: bold;
+  color: var(--color-headings);
+}
+/* ///////////////// */
+
+.btn {
+  color: var(--color-white);
+  background-color: var(--color-secondary-dark);
+  padding: 2rem 1.5rem;
+  outline: none;
+  border: none;
+  border-radius: 8px;
+}

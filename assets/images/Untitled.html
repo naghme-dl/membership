@@ -1,0 +1,1144 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><script>
+ document.close();
+ document.addEventListener('keydown', (e) => {
+   if (e.keyCode === 80 /* P */ && !e.shiftKey && e.altKey && e.ctrlKey && !e.metaKey) {
+     // Handle the plugin re-run shortcut
+     window.parent.postMessage('$INTERNAL_DO_NOT_USE$RERUN_PLUGIN$', '*')
+     e.stopPropagation()
+     e.stopImmediatePropagation()
+   } else if (false) {
+     // Handle Select All, Undo and Redo in the desktop app
+     const ctrlDown = e.ctrlKey
+     if (ctrlDown) {
+       if (e.keyCode === 65 /* A */) {
+         document.execCommand('selectAll')
+       } else if (e.keyCode === 90 /* Z */) {
+         if (e.shiftKey) {
+           document.execCommand('redo')
+         } else {
+           document.execCommand('undo')
+         }
+       } else if ((e.key === 'x' || e.key === 'X') && false) {
+         document.execCommand('cut')
+       } else if ((e.key === 'c' || e.key === 'C') && false) {
+         document.execCommand('copy')
+       } else if ((e.key === 'v' || e.key === 'V') && false) {
+         document.execCommand('paste')
+       }
+     }
+   }
+ }, true)
+
+ function renderCssVariables(vars) {
+   return Object.entries(vars)
+     .map((entry) => entry.join(': '))
+     .join('; ') + ';'
+ }
+
+ window.addEventListener('message', function(event) {
+   if (
+     event.source === window.parent.parent.parent &&
+     event.data &&
+     typeof event.data === 'object' &&
+     'figmaMessage' in event.data
+   ) {
+     event.stopImmediatePropagation()
+
+     const figmaMessage = event.data.figmaMessage
+
+     if (figmaMessage.type === 'THEME') {
+       const figmaStyle = document.getElementById('figma-style')
+       figmaStyle.textContent = ':root { ' + renderCssVariables(figmaMessage.payload.variables) + ' }'
+
+       const classesToRemove = []
+
+       document.documentElement.classList.forEach((value) => {
+         if (value.startsWith('figma-')) {
+           classesToRemove.push(value)
+         }
+       })
+
+       for (const className of classesToRemove) {
+         document.documentElement.classList.remove(className)
+       }
+
+       if (figmaMessage.payload.name && figmaMessage.payload.name !== 'legacy') {
+         document.documentElement.classList.add('figma-' + figmaMessage.payload.name)
+       }
+     }
+   }
+ }, true)
+ </script><style>@font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 100;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-Thin-BETA.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-Thin-BETA.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: italic;
+      font-weight: 100;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-ThinItalic-BETA.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-ThinItalic-BETA.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 200;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-ExtraLight-BETA.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-ExtraLight-BETA.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: italic;
+      font-weight: 200;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-ExtraLightItalic-BETA.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-ExtraLightItalic-BETA.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 300;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-Light-BETA.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-Light-BETA.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: italic;
+      font-weight: 300;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-LightItalic-BETA.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-LightItalic-BETA.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-Regular.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-Regular.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: italic;
+      font-weight: 400;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-Italic.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-Italic.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-Medium.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-Medium.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: italic;
+      font-weight: 500;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-MediumItalic.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-MediumItalic.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-SemiBold.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-SemiBold.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: italic;
+      font-weight: 600;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-SemiBoldItalic.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-SemiBoldItalic.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-Bold.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-Bold.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: italic;
+      font-weight: 700;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-BoldItalic.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-BoldItalic.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 800;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-ExtraBold.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-ExtraBold.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: italic;
+      font-weight: 800;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-ExtraBoldItalic.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-ExtraBoldItalic.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 900;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-Black.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-Black.woff?v=3.10a') format('woff');
+    }
+@font-face {
+      font-family: 'Inter';
+      font-style: italic;
+      font-weight: 900;
+      font-display: swap;
+      src: url('https://static.figma.com/webfont/1/Inter-BlackItalic.woff2?v=3.10a') format('woff2'),
+      url('https://static.figma.com/webfont/1/Inter-BlackItalic.woff?v=3.10a') format('woff');
+    }</style><style>
+  body {
+    /* background-color: #f5f5f5; */
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  button:focus {
+    outline: none;
+  }
+
+  input,
+  select {
+    outline: none;
+  }
+
+  svg {
+    width: 17px;
+  }
+
+  a {
+    color: #1c79f2;
+    text-decoration: none;
+    /* clip text to */
+  }
+
+  .header__text {
+    font-family: "Grifter Bold";
+    font-size: 2rem;
+    color: rgb(0, 0, 0);
+    letter-spacing: 1px;
+  }
+
+  .images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 4rem 2rem;
+    overflow-x: hidden;
+  }
+
+  .images__image {
+    transition: 0.3s;
+    border-radius: 10px;
+    position: relative;
+    border-radius: 50%;
+    padding: 0;
+    width: 90px;
+    height: 90px;
+    overflow: hidden;
+    border: 1px solid #ebebeb;
+  }
+
+  .images__image:hover {
+    border-radius: 10px;
+  }
+
+  .images__image__img {
+    width: 80px;
+    transition: 0.3s;
+    border: solid 5px transparent;
+    padding: 0;
+    margin: 0;
+  }
+
+  .images__image:hover .images__image__img {
+    transform: scale(1.5) translateY(0px);
+    background: white;
+    border: solid 5px white;
+    filter: blur(2px);
+  }
+
+  .image__control__buttons {
+    margin-top: 5px;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px;
+    opacity: 0;
+    transition: 0.5s;
+    border-radius: 10px;
+
+    transform: translateY(10px);
+
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  .image__control__input {
+    width: 100%;
+    padding: 2px 5px;
+    border: 1px solid #f5f5f5;
+    border-radius: 5px;
+    font-size: 11px;
+    color: #333;
+    line-height: 1.5;
+    margin: 0;
+    outline: none;
+  }
+
+  .hor {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .images__image:hover .image__control__buttons {
+    transform: translateY(4px);
+  }
+
+  .image__control__buttons .image__control__button {
+    border: 1px solid #f5f5f5;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 50px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.097);
+    cursor: pointer;
+  }
+
+  .image__control__buttons .image__control__button:hover {
+    background-color: #ffffff;
+    color: #0075fd;
+  }
+
+  .images__image:hover .image__control__buttons {
+    opacity: 1;
+  }
+
+  /* rand btn  */
+  .randomize__btn {
+    border: none;
+    border-radius: 50px;
+    background-color: black;
+    color: white;
+    padding: 3px 15px 3px 5px; /* top right bottom left */
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .randomize__btn:active {
+    transform: scale(0.8);
+    transition: 0.3s;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    z-index: 999;
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #e5e5e5;
+  }
+
+  /* group items #themeRandom */
+  #themeRandom {
+    position: fixed;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    background-color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    border: 1px solid #e5e5e5;
+    width: fit-content;
+    padding: 2px 3px;
+    margin: 0 auto;
+
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.059);
+  }
+
+  button {
+    border: none;
+    background-color: #ffffff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  #themeRandom button {
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 50px;
+  }
+
+  #themeRandom button.active {
+    background-color: #e5e5e5;
+    font-weight: 600;
+  }
+
+  #themeRandom button:hover {
+    background-color: #e5e5e5;
+  }
+
+  .capitalize {
+    text-transform: capitalize;
+  }
+
+  .how_it_works {
+    position: relative;
+  }
+
+  .how_it_works .video {
+    position: absolute;
+    bottom: calc(100%); /* 10px padding (top) */
+    left: 0;
+    width: 300px;
+    height: fit-content;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.256);
+    background: #000;
+    overflow: hidden;
+    display: none;
+  }
+
+  .how_it_works .video video {
+    width: 100%;
+    height: 100%;
+  }
+
+  .how_it_works:hover .video {
+    display: block;
+  }
+
+  .info__btn {
+    border: none;
+    background-color: #ffffff;
+    color: #c0becc;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-left: 10px;
+  }
+
+  .info__btn:hover {
+    color: #000000;
+  }
+
+  .flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+</head><body><div id="themeRandom">
+      <button onclick="changeTheme('all', this)" id="var_all" class=" capitalize">all</button><button onclick="changeTheme('vibrent', this)" id="var_vibrent" class="active capitalize">vibrent</button><button onclick="changeTheme('3d', this)" id="var_3d" class=" capitalize">3d</button><button onclick="changeTheme('bluey', this)" id="var_bluey" class=" capitalize">bluey</button><button onclick="changeTheme('memo', this)" id="var_memo" class=" capitalize">memo</button><button onclick="changeTheme('notion', this)" id="var_notion" class=" capitalize">notion</button><button onclick="changeTheme('teams', this)" id="var_teams" class=" capitalize">teams</button><button onclick="changeTheme('toon', this)" id="var_toon" class=" capitalize">toon</button><button onclick="changeTheme('upstream', this)" id="var_upstream" class=" capitalize">upstream</button>
+    </div>
+
+<div id="avatars" class="images"><div class="images__image">
+          <img src="Untitled_files/vibrent_1.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_1.png', '#FFBFB8')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFBFB8">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_2.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_2.png', '#B2AD96')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#B2AD96">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_3.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_3.png', '#FFD4B8')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFD4B8">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_4.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_4.png', '#FFE5B8')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFE5B8">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_5.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_5.png', '#FFCC8A')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFCC8A">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_6.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_6.png', '#FBC2DA')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FBC2DA">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_7.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_7.png', '#BFD5CD')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#BFD5CD">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_8.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_8.png', '#FFD4B8')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFD4B8">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_9.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_9.png', '#FFF2B9')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFF2B9">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_10.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_10.png', '#FFBEB8')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFBEB8">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_11.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_11.png', '#DAD0FC')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#DAD0FC">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_12.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_12.png', '#FFC7E0')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFC7E0">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_13.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_13.png', '#FFA576')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFA576">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_14.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_14.png', '#FFDCB9')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFDCB9">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_15.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_15.png', '#FFF2B9')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFF2B9">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_16.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_16.png', '#FFCC8A')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFCC8A">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_17.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_17.png', '#E3B8FF')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#E3B8FF">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_18.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_18.png', '#C0D9BF')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#C0D9BF">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_19.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_19.png', '#FFBEB8')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFBEB8">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_20.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_20.png', '#F7C5BF')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#F7C5BF">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_21.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_21.png', '#FFDBB8')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFDBB8">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_22.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_22.png', '#EDD6A1')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#EDD6A1">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_23.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_23.png', '#F6D3BD')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#F6D3BD">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_24.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_24.png', '#FFBFB8')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#FFBFB8">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_25.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_25.png', '#EDBBD6')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#EDBBD6">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_26.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_26.png', '#B8D7FF')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#B8D7FF">
+          </div>
+        </div>
+      <div class="images__image">
+          <img src="Untitled_files/vibrent_27.png" class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars">
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_27.png', '#D1FFF4')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd"></path></svg>
+              </button>
+            </div>
+            <input readonly="readonly" onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="#D1FFF4">
+          </div>
+        </div>
+      </div>
+<!-- <div class="col-lg-12 text-center mb-3">
+  <button
+    class="randomize__btn"
+    onclick="randColors()"
+    data-bs-toggle="tooltip"
+    data-bs-custom-class="custom-tooltip"
+    data-bs-title="Randomize colors"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      class="w-6 h-6"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M14.615 1.595a.75.75 0 01.359.852L12.982 9.75h7.268a.75.75 0 01.548 1.262l-10.5 11.25a.75.75 0 01-1.272-.71l1.992-7.302H3.75a.75.75 0 01-.548-1.262l10.5-11.25a.75.75 0 01.913-.143z"
+        clip-rule="evenodd"
+      />
+    </svg>
+  </button>
+</div> -->
+
+<!-- powered by CopyUI.com -->
+<div class="footer">
+  <div class="flex">
+    <button class="randomize__btn" onclick="randomlyInsert()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path fill-rule="evenodd" d="M14.615 1.595a.75.75 0 01.359.852L12.982 9.75h7.268a.75.75 0 01.548 1.262l-10.5 11.25a.75.75 0 01-1.272-.71l1.992-7.302H3.75a.75.75 0 01-.548-1.262l10.5-11.25a.75.75 0 01.913-.143z" clip-rule="evenodd"></path>
+      </svg>
+
+      <span> Replace all </span>
+    </button>
+
+    <div class="how_it_works">
+      <button class="info__btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+          <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 0 1 .67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 1 1-.671-1.34l.041-.022ZM12 9a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+      <div class="video">
+        <!-- tutorial video -->
+        <!-- https://copyui.com/templates/dir.m4v -->
+        <video src="Untitled_files/2024-03-09-15-43-08-1-1.m4v" autoplay="autoplay" loop="" muted="muted">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <a href="https://twitter.com/alemalohe" target="_blank" style="
+      color: rgb(168, 168, 168);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 500;
+    ">
+    Made with &#10084;&#65039; by <span style="color: #0075fd">Alohe</span>
+  </a>
+</div>
+
+<script>
+  // document.getElementById("create").onclick = () => {
+  //   const textbox = document.getElementById("count");
+  //   const count = parseInt(textbox.value, 10);
+  //   parent.postMessage(
+  //     { pluginMessage: { type: "create-rectangles", count } },
+  //     "*"
+  //   );
+  // };
+
+  let images = [
+    "vibrent_1.png",
+    "vibrent_2.png",
+    "vibrent_3.png",
+    "vibrent_4.png",
+    "vibrent_5.png",
+    "vibrent_6.png",
+    "vibrent_7.png",
+    "vibrent_8.png",
+    "vibrent_9.png",
+    "vibrent_10.png",
+    "vibrent_11.png",
+    "vibrent_12.png",
+    "vibrent_13.png",
+    "vibrent_14.png",
+    "vibrent_15.png",
+    "vibrent_16.png",
+    "vibrent_17.png",
+    "vibrent_18.png",
+    "vibrent_19.png",
+    "vibrent_20.png",
+    "vibrent_21.png",
+    "vibrent_22.png",
+    "vibrent_23.png",
+    "vibrent_24.png",
+    "vibrent_25.png",
+    "vibrent_26.png",
+    "vibrent_27.png",
+    "3d_1.png",
+    "3d_2.png",
+    "3d_3.png",
+    "3d_4.png",
+    "3d_5.png",
+    "bluey_1.png",
+    "bluey_2.png",
+    "bluey_3.png",
+    "bluey_4.png",
+    "bluey_5.png",
+    "bluey_6.png",
+    "bluey_7.png",
+    "bluey_8.png",
+    "bluey_9.png",
+    "bluey_10.png",
+    "memo_1.png",
+    "memo_2.png",
+    "memo_3.png",
+    "memo_4.png",
+    "memo_5.png",
+    "memo_6.png",
+    "memo_7.png",
+    "memo_8.png",
+    "memo_9.png",
+    "memo_10.png",
+    "memo_11.png",
+    "memo_12.png",
+    "memo_13.png",
+    "memo_14.png",
+    "memo_15.png",
+    "memo_16.png",
+    "memo_17.png",
+    "memo_18.png",
+    "memo_19.png",
+    "memo_20.png",
+    "memo_21.png",
+    "memo_22.png",
+    "memo_23.png",
+    "memo_24.png",
+    "memo_25.png",
+    "memo_26.png",
+    "memo_27.png",
+    "memo_28.png",
+    "memo_29.png",
+    "memo_30.png",
+    "memo_31.png",
+    "memo_32.png",
+    "memo_33.png",
+    "memo_34.png",
+    "memo_35.png",
+    "notion_1.png",
+    "notion_2.png",
+    "notion_3.png",
+    "notion_4.png",
+    "notion_5.png",
+    "notion_6.png",
+    "notion_7.png",
+    "notion_8.png",
+    "notion_9.png",
+    "notion_10.png",
+    "notion_11.png",
+    "notion_12.png",
+    "notion_13.png",
+    "notion_14.png",
+    "notion_15.png",
+    "teams_1.png",
+    "teams_2.png",
+    "teams_3.png",
+    "teams_4.png",
+    "teams_5.png",
+    "teams_6.png",
+    "teams_7.png",
+    "teams_8.png",
+    "teams_9.png",
+    "toon_1.png",
+    "toon_2.png",
+    "toon_3.png",
+    "toon_4.png",
+    "toon_5.png",
+    "toon_6.png",
+    "toon_7.png",
+    "toon_8.png",
+    "toon_9.png",
+    "toon_10.png",
+    "upstream_1.png",
+    "upstream_2.png",
+    "upstream_3.png",
+    "upstream_4.png",
+    "upstream_5.png",
+    "upstream_6.png",
+    "upstream_7.png",
+    "upstream_8.png",
+    "upstream_9.png",
+    "upstream_10.png",
+    "upstream_11.png",
+    "upstream_12.png",
+    "upstream_13.png",
+    "upstream_14.png",
+    "upstream_15.png",
+    "upstream_16.png",
+    "upstream_17.png",
+    "upstream_18.png",
+    "upstream_19.png",
+    "upstream_20.png",
+    "upstream_21.png",
+    "upstream_22.png",
+  ];
+
+  let colors = [
+    "#CEC3FF",
+    "#C8F1FF",
+    "#FFD4B8",
+    "#E3B8FF",
+    "#FFE5B8",
+    "#FFDBDE",
+    "#FFC7E0",
+    "#FFA576",
+    "#FFBEB8",
+    "#FFF7B8",
+    "#FFC2B8",
+    "#D1FFF4",
+    "#FFD4B8",
+    "#FF8A8A",
+    "#FFCC8A",
+    "#FFCC8A",
+    "#FFDBB8",
+    "#E0B8FF",
+    "#C0D9BF",
+    "#EDBBD6",
+    "#F6D3BD",
+    "#FFF2B9",
+    "#FFBEB8",
+    "#FFDCB9",
+    "#FFC0B8",
+    "#FFBFB8",
+    "#BFD5CD",
+    "#B2AD96",
+    "#EDD6A1",
+    "#FFDBB8",
+    "#FBC2DA",
+    "#F7C5BF",
+    "#F7C5BF",
+    "#DAD0FC",
+    "#B8D7FF",
+  ];
+
+  let filter = "all";
+
+  function init() {
+    let imgsContainer = document.querySelector("#avatars");
+    let themeRandom = document.querySelector("#themeRandom");
+    let variants = ["all"];
+
+    for (let variant of images) {
+      let name = variant.split("_")[0];
+
+      if (!variants.includes(name)) {
+        variants.push(name);
+      }
+    }
+
+    themeRandom.innerHTML = `
+      ${variants
+        .map((variant) => {
+          return `<button onclick="changeTheme('${variant}', this)" id="var_${variant}" class="${
+            variant === filter ? "active" : ""
+          } capitalize">${variant}</button>`;
+        })
+        .join("")}
+    `;
+
+    imgsContainer.innerHTML = images
+      .filter((img) => {
+        if (filter === "all") {
+          return img;
+        } else {
+          return img.includes(filter);
+        }
+      })
+      .map((image, i) => {
+        let color = Math.floor(Math.random() * colors.length);
+        return `<div class="images__image">
+          <img src="https://cdn.jsdelivr.net/gh/alohe/memojis/png/${image}"  class="images__image__img" style="background-color: #e9e9eb; border-radius: 50%;" alt="avatars" />
+          <div class="image__control__buttons">
+            <div class="hor">
+              <button class="image__control__button" onclick="addImage('https://cdn.jsdelivr.net/gh/alohe/memojis/png/${image}', '${colors[color]}')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z" clip-rule="evenodd" /></svg>
+              </button>
+            </div>
+            <input readonly onclick="this.select(); document.execCommand('copy')" type="text" class="image__control__input" value="${colors[color]}" />
+          </div>
+        </div>
+      `;
+      })
+      .join("");
+  }
+
+  function changeTheme(theme) {
+    filter = theme;
+    let buttons = document.querySelectorAll("#themeRandom button");
+    buttons.forEach((button) => {
+      button.classList.remove("active");
+    });
+    document.querySelector(`#var_${theme}`).classList.add("active");
+
+    init();
+  }
+
+  init();
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  const randomlyInsert = () => {
+    // randomly inset multiple images to selections
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: "randomly-insert",
+          images: images.filter((img) => {
+            if (filter === "all") {
+              return img;
+            } else {
+              return img.includes(filter);
+            }
+          }),
+        },
+      },
+      "*"
+    );
+  };
+
+  function addImage(url, color) {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: "add-avatar",
+          img: url,
+          hexColor: color,
+        },
+      },
+      "*"
+    );
+  }
+</script>
+</body></html>
